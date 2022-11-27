@@ -1,0 +1,23 @@
+{
+  "name": "retos",
+  "version": "1.0.0",
+  "description": "",
+  "main": "createFile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sebastian-mc-commits/challenges.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sebastian-mc-commits/challenges/issues"
+  },
+  "homepage": "https://github.com/Sebastian-mc-commits/challenges#readme",
+  "devDependencies": {
+    "prompt-sync": "^4.2.0"
+  }
+}
