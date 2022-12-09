@@ -1,4 +1,5 @@
 const fs = require("fs");
+const path = require("path");
 class ProductManager {
     #product;
     #path;
@@ -20,7 +21,7 @@ class ProductManager {
         if (!validateFileds) return `${products.title} has missing fields`;
 
         this.#product.push({
-            id: this.#product.length === 0 ? 1 : this.#product[this.#path.length - 1].id + 1,
+            id: this.#product.length === 0 ? 1 : this.#product[this.#product.length - 1].id + 1,
             ...products
         });
         this.#uploadProduct();
@@ -28,18 +29,27 @@ class ProductManager {
         return `Product ${products.title} has been added successfully`;
     }
 
-    #uploadProduct = () => fs.writeFileSync(this.#path, JSON.stringify(this.#product));
+    #uploadProduct = () => {
+        const fileRoute = path.join(__dirname, this.#path);
+        return fs.writeFileSync(fileRoute, JSON.stringify(this.#product));
+    };
 
-    getProducts = () => this.#product;
+    getProducts = (limit) => {
 
-    getProductById = (id) => this.#existProduct(id) ?
-        this.#product.find(p => p.id === id)
-        : "Not found";
+        if (!limit) return this.#product;
+
+        let productLimit = [];
+        for (let i = 0; i < limit; i++) productLimit.push(this.#product[i]);
+        return productLimit;
+
+    };
+
+    getProductById = (id) => this.#product.find(p => p.id === id);
 
     #existProduct = (id) => Boolean(this.#product.find(p => p.id === id));
 
     deleteProduct(id) {
-        if (!this.#existProduct(id)) return `${id} Not exist`;
+        if (!this.#existProduct(id)) return false;
 
         this.#product = this.#product.filter(p => p.id !== id);
         return this.#uploadProduct(), `${id} Deleted successfully`;
@@ -48,8 +58,9 @@ class ProductManager {
     updateProduct = (id, newProduct) => {
         if (!this.#existProduct(id) || newProduct.id) return "Not found for updating";
 
-        const index = this.#product.indexOf(this.#product.find(p => p.id === id));
-        this.#product.splice(index, 1, { ...(this.getProductById(id)), ...newProduct });
+        const product = this.getProductById(id);
+        const index = this.#product.indexOf(product);
+        this.#product.splice(index, 1, { ...product, ...newProduct });
         return this.#uploadProduct(), `${newProduct.title || id} Updated successfully`;
 
     };
@@ -58,38 +69,11 @@ class ProductManager {
         return this.#uploadProduct(), "All the products has been deleted successfully";
     }
 }
-const netboock = {
-
-    title: "Portatiles",
-    price: 2000000, thumbnail: "./", stock: 6
-}
-const furniture = {
-    id: 5,
-    title: "Muebles", description: "suaves y comodos",
-    price: 1000000, thumbnail: "./", code: "12001s", stock: 10
-}
-
-const productTest = {
-    title: "producto prueba",
-    description: "Este es un producto prueba",
-    price: 200,
-    thumbnail: "Sin imagen",
-    code: "abc123",
-    stock: 25
-}
 
 const product = new ProductManager("products.json");
-console.log(product.getProducts());//[]
-console.log(product.addProduct(productTest));//Product producto prueba has been added successfully
-console.log(product.getProducts());//return the array
-console.log(product.getProductById(1));//return the object
-console.log(product.getProductById(2));//Not found
-console.log(product.updateProduct(1, netboock));//Updated successfully
-console.log(product.updateProduct(1, furniture));//Not found for updating
-console.log(product.deleteProduct(2));//Not found
-console.log(product.deleteProduct(1));//1 Deleted successfully
 
-/*for (let i = 0; i < 20; i++) {
+module.exports = product;
+/*for (let i = 0; i < 60; i++) {
     const random = Math.random().toString(36).substring(0, 5);
     const ejm = {
         title: random, description: "Ejemplo",
