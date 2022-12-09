@@ -10,15 +10,11 @@ class ProductManager {
     }
 
     addProduct(products) {
-        if (this.#product.some(p => p.code === products.code)) {
-            return `The product ${products.title} already exist`;
-        }
-
         const validateFileds = Object.keys(products).includes("title" && "description" &&
             "price" && "thumbnail" && "code" && "stock") &&
             Object.values(products).every(p => Boolean(p) || p === 0);
 
-        if (!validateFileds) return `${products.title} has missing fields`;
+        if (this.#product.some(p => p.code === products.code) || !validateFileds) return false;
 
         this.#product.push({
             id: this.#product.length === 0 ? 1 : this.#product[this.#product.length - 1].id + 1,
@@ -44,19 +40,20 @@ class ProductManager {
 
     };
 
-    getProductById = (id) => this.#product.find(p => p.id === id);
+    getProductById = (id) => this.#product.find(p => p.id === parseInt(id));
 
-    #existProduct = (id) => Boolean(this.#product.find(p => p.id === id));
+    #existProduct = (id) => Boolean(this.#product.find(p => p.id === parseInt(id)));
 
     deleteProduct(id) {
         if (!this.#existProduct(id)) return false;
 
-        this.#product = this.#product.filter(p => p.id !== id);
+        this.#product = this.#product.filter(p => p.id !== parseInt(id));
         return this.#uploadProduct(), `${id} Deleted successfully`;
     };
 
     updateProduct = (id, newProduct) => {
-        if (!this.#existProduct(id) || newProduct.id) return "Not found for updating";
+        const code = this.#product.some(p => p.code === newProduct.code);
+        if (!this.#existProduct(id) || newProduct.id || code) return false;
 
         const product = this.getProductById(id);
         const index = this.#product.indexOf(product);

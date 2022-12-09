@@ -1,12 +1,12 @@
 [
     {
         "id": 1,
-        "title": "0.0e2",
-        "description": "Ejemplo",
-        "price": 0,
+        "title": "Hi",
+        "description": "good netboock 🙂",
+        "price": 5000,
         "thumbnail": "./",
-        "code": "0.0e2",
-        "stock": 0
+        "code": "5",
+        "stock": 11
     },
     {
         "id": 2,
@@ -1332,12 +1332,21 @@
         "stock": 10
     },
     {
-        "id": 149,
-        "title": "0.blu",
-        "description": "Ejemplo",
-        "price": 11000,
+        "id": 150,
+        "title": "pan",
+        "description": "delicioso pan de queso",
+        "price": 5000,
         "thumbnail": "./",
-        "code": "0.blu",
+        "code": "as55a",
+        "stock": 11
+    },
+    {
+        "id": 151,
+        "title": "netboock",
+        "description": "good netboock 🙂",
+        "price": 5000,
+        "thumbnail": "./",
+        "code": "5555",
         "stock": 11
     }
 ]
