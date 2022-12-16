@@ -3,34 +3,32 @@ const path = require("path");
 class ProductManager {
     #product;
     #path;
-    constructor(path) {
-        this.#path = path;
-        this.#product = fs.existsSync(path) ?
-            JSON.parse(fs.readFileSync(path)) : [];
+    constructor(pt) {
+        this.#path = path.join(__dirname, pt);
+        this.#product = fs.existsSync(this.#path) ?
+            JSON.parse(fs.readFileSync(this.#path)) : [];
     }
 
     addProduct(products) {
         const validateFileds = Object.keys(products).includes("title" && "description" &&
-            "price" && "thumbnail" && "code" && "stock") &&
+            "price" && "code" && "stock") &&
             Object.values(products).every(p => Boolean(p) || p === 0);
 
         if (this.#product.some(p => p.code === products.code) || !validateFileds) return false;
 
+        if (!Object.keys(products).includes("status")) products.status = true;
         this.#product.push({
             id: this.#product.length === 0 ? 1 : this.#product[this.#product.length - 1].id + 1,
-            ...products
+            ...products,
         });
         this.#uploadProduct();
 
         return `Product ${products.title} has been added successfully`;
     }
 
-    #uploadProduct = () => {
-        const fileRoute = path.join(__dirname, this.#path);
-        return fs.writeFileSync(fileRoute, JSON.stringify(this.#product));
-    };
+    #uploadProduct = () => fs.writeFileSync(this.#path, JSON.stringify(this.#product));
 
-    getProducts = (limit) => {
+    getProducts = (limit = 0) => {
 
         if (!limit) return this.#product;
 

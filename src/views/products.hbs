@@ -1,0 +1,29 @@
+{{#if getProductById}}
+    {{#if products.thumbnail}}
+            <img src={{products.thumbnail}} alt="Product Image">
+        {{/if}}
+
+        <h1>{{products.title}}</h1>
+        <p>Precio: {{products.price}}</p>
+        <p>Code: {{products.code}}</p>
+        <p>Status: {{products.status}}</p>
+        <p>{{products.description}}</p>
+        <!--<a href="/cart/addToCart?title={{title}}&{{price}}&code={{code}}&status={{status}}&description={{description}}&tumbnail={{tumbnail}}">
+            Add to cart
+        </a>-->
+    {{else}}
+    {{#each products}}
+        {{#if thumbnail}}
+            <img src={{thumbnail}} alt="Product Image">
+        {{/if}}
+
+        <h1>{{title}}</h1>
+        <p>Precio: {{price}}</p>
+        <p>Code: {{code}}</p>
+        <p>Status: {{status}}</p>
+        <p>{{description}}</p>
+        <!--<a href="/cart/addToCart?title={{title}}&{{price}}&code={{code}}&status={{status}}&description={{description}}&tumbnail={{tumbnail}}">
+            Add to cart
+        </a>-->
+    {{/each}}
+{{/if}}
