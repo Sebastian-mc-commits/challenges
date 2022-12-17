@@ -7,10 +7,12 @@ const PORT = 4000;
 
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
+app.use("/public", express.static(path.join(__dirname, "public")));
 
 //Set
 const hbs = create({
-    extname: ".hbs"
+    extname: ".hbs",
+    helpers: require("./lib/handlebars")
 });
 app.engine("hbs", hbs.engine);
 app.set("views", path.join(__dirname, "views"));

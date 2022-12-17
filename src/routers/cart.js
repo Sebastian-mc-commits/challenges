@@ -1,28 +1,29 @@
 const { Router } = require("express");
 const cart = require("../cart");
+const {getProductById} = require("../ProductManager");
 const router = Router();
 
 router.get("/", (req, res) => {
     const {limit} = req.query;
-    res.json(cart.getProducts(limit));
+    res.render("cart", {products: cart.getProducts(limit)});
 });
 
-router.get("/addToCart", (req, res) => {
-    console.log("Enter here");
-    const product = {
-        title: req.query.title,
-        price: req.query.price,
-        code: req.query.code,
-        status: req.query.status,
-        tumbnail: req.query.tumbnail,
-        description: req.query.description,
-    }
-    cart.addProduct(product)
+router.get("/addToCart/:id", (req, res) => {
+    //cart.addProduct(product)
+    const {id} = req.params;
+    const getProduct = getProductById( parseInt(id) );
+    cart.addProduct(getProduct);
     res.redirect("/products");
 });
-router.delete("/delete/:pid", (req, res) => {
+router.get("/delete/:pid", (req, res) => {
     const {pid} = req.params;
-    res.json(cart.deleteProduct(pid));
+    cart.deleteProduct(pid);
+    res.redirect("/cart");
+});
+
+router.get("/deleteAll", (req, res) => {
+    cart.deleteAll();
+    res.redirect("/cart");
 });
 
 router.get("/edit/:pid", (req, res) => {

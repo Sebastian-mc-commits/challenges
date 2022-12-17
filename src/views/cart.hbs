@@ -1,4 +1,6 @@
 <div class="container">
+  <h1>Cart</h1>
+  <button><a href="/cart/deleteAll" class="text">Delete all</a></button>
   {{#if getProductById}}
     {{#with products}}
       {{#if thumbnail}}
@@ -9,8 +11,9 @@
       <p>Price: {{price}}</p>
       <p>Code: {{code}}</p>
       <p>Status: {{status}}</p>
-      <p>Stock: {{stock}}</p>
       <p>{{description}}</p>
+      <p>Quantity: {{quantity}}</p>
+      <button><a href="/cart/delete/{{id}}" class="text">Delete</a></button>
       <!--<a href="/cart/addToCart?title={{title}}&{{price}}&code={{code}}&status={{status}}&description={{description}}&tumbnail={{tumbnail}}">
             Add to cart
         </a>-->
@@ -25,12 +28,11 @@
       <p>Price: {{price}}</p>
       <p>Code: {{code}}</p>
       <p>Status: {{status}}</p>
-      <p>Stock: {{stock}}</p>
       <p>{{description}}</p>
+      <button><a href="/cart/delete/{{id}}" class="text">Delete</a></button>
       <!--<a href="/cart/addToCart?title={{title}}&{{price}}&code={{code}}&status={{status}}&description={{description}}&tumbnail={{tumbnail}}">
             Add to cart
         </a>-->
-      <button> <a href="/cart/addToCart/{{id}}">Add to cart</a> </button>
     {{/each}}
   {{/if}}
 </div>
