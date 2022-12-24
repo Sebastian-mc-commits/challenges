@@ -1,6 +1,5 @@
-const { Router } = require("express");
-const cart = require("../cart");
-const {getProductById} = require("../ProductManager");
+import {product, cart} from "../classes/index.js"
+import { Router } from "express";
 const router = Router();
 
 router.get("/", (req, res) => {
@@ -11,7 +10,7 @@ router.get("/", (req, res) => {
 router.get("/addToCart/:id", (req, res) => {
     //cart.addProduct(product)
     const {id} = req.params;
-    const getProduct = getProductById( parseInt(id) );
+    const getProduct = product.getProductById( parseInt(id) );
     cart.addProduct(getProduct);
     res.redirect("/products");
 });
@@ -31,4 +30,4 @@ router.get("/edit/:pid", (req, res) => {
     res.json(cart.updateProduct(pid, req.body ));
 });
 
-module.exports = router;
+export default router;

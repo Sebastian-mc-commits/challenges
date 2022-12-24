@@ -1,5 +1,6 @@
-const { Router } = require("express");
-const product = require("../ProductManager");
+import { product } from "../classes/index.js";
+import { Router } from "express";
+
 const router = Router();
 
 router.get("/", (req, res) => {
@@ -37,4 +38,4 @@ router.put("/:pid", (req, res) => {
     res.send(updateProduct);
 });
 
-module.exports = router;
+export default router;

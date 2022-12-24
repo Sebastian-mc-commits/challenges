@@ -1,4 +1,5 @@
-<div class="container">
+<div class="container grid">
+  <h1>Products</h1>
   {{#if getProductById}}
     {{#with products}}
       {{#if thumbnail}}
@@ -11,26 +12,36 @@
       <p>Status: {{status}}</p>
       <p>Stock: {{stock}}</p>
       <p>{{description}}</p>
+      <button>
+        <a href="/cart/addToCart/{{id}}" class="text">Add to cart</a>
+      </button>
+      <button><a href="/listContent/{{id}}" class="text">Watch more</a></button>
       <!--<a href="/cart/addToCart?title={{title}}&{{price}}&code={{code}}&status={{status}}&description={{description}}&tumbnail={{tumbnail}}">
             Add to cart
         </a>-->
     {{/with}}
   {{else}}
     {{#each products}}
-      {{#if thumbnail}}
-        <img src={{thumbnail}} alt="Product Image" />
-      {{/if}}
-
-      <h1>{{title}}</h1>
-      <p>Price: {{price}}</p>
-      <p>Code: {{code}}</p>
-      <p>Status: {{status}}</p>
-      <p>Stock: {{stock}}</p>
-      <p>{{description}}</p>
-      <!--<a href="/cart/addToCart?title={{title}}&{{price}}&code={{code}}&status={{status}}&description={{description}}&tumbnail={{tumbnail}}">
+      <div id="content">
+        {{#if thumbnail}}
+          <img src="/public/images/example.jpg" alt="Product Image"/>
+        {{/if}}
+        <h1>{{title}}</h1>
+        <p>Price: {{price}}</p>
+        <p>Code: {{code}}</p>
+        <p>Status: {{status}}</p>
+        <p>Stock: {{stock}}</p>
+        <p>{{description}}</p>
+        <p id="id">{{id}}</p>
+        <!--<a href="/cart/addToCart?title={{title}}&{{price}}&code={{code}}&sttus={{status}}&description={{description}}&tumbnail={{tumbnail}}">
             Add to cart
         </a>-->
-      <button> <a href="/cart/addToCart/{{id}}">Add to cart</a> </button>
+        <button>
+          <a href="/cart/addToCart/{{id}}" class="text">Add to cart</a>
+        </button>
+
+        <button><a href="/listContent/{{id}}" class="text">Watch more</a></button>
+      </div>
     {{/each}}
   {{/if}}
 </div>

@@ -3,15 +3,21 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ProductManager</title>
+    <title>{{currentView}} ProductManager</title>
     <link rel="stylesheet" href="/public/styles/index.css" />
   </head>
   <div>
-    <button>
-      <a href="/cart" class="text"> Go to Cart <sup>Items: <strong>{{length}}</strong></sup> </a>
+    <button id="btnCart">
+      <a href="/cart" class="text">
+        Go to Cart
+        <sup>Items: <strong>{{length}}</strong></sup>
+      </a>
     </button>
   </div>
   <body>
+    <p hidden id="currentView">{{currentView}}</p>
     {{{body}}}
   </body>
+
+  <script src="/public/js/main.js"></script>
 </html>

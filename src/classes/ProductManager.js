@@ -1,10 +1,10 @@
-const fs = require("fs");
-const path = require("path");
+import fs from "fs";
+import __dirname from "../__dirname.js";
 class ProductManager {
     #product;
     #path;
     constructor(pt) {
-        this.#path = path.join(__dirname, pt);
+        this.#path = __dirname("classes", "data", pt);
         this.#product = fs.existsSync(this.#path) ?
             JSON.parse(fs.readFileSync(this.#path)) : [];
     }
@@ -65,9 +65,7 @@ class ProductManager {
     }
 }
 
-const product = new ProductManager("products.json");
-
-module.exports = product;
+export default new ProductManager("products.json");
 /*for (let i = 0; i < 60; i++) {
     const random = Math.random().toString(36).substring(0, 5);
     const ejm = {

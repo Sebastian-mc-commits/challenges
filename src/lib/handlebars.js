@@ -1,9 +1,8 @@
-
+import { cart } from "../classes/index.js"
 const helpers = {}
 
-helpers.length = () => {
-    const {getProducts} = require("../cart.js");
-    return getProducts().length;
-}
+helpers.length = (options) => cart.getProducts().length;
 
-module.exports = helpers;
+helpers.currentView = (options) => options.data.exphbs.view;
+
+export default helpers;

@@ -1,10 +1,10 @@
-const fs = require("fs");
-const path = require("path");
+import fs from "fs";
+import __dirname from "../__dirname.js";
 class Cart {
     #product;
     #path;
     constructor(pt) {
-        this.#path = path.join(__dirname, pt);
+        this.#path = __dirname("classes", "data", pt);;
         this.#product = fs.existsSync(this.#path) ?
             JSON.parse(fs.readFileSync(this.#path)) : [];
     }
@@ -60,6 +60,4 @@ class Cart {
     }
 }
 
-const cart = new Cart("cart.json");
-
-module.exports = cart;
+export default new Cart("cart.json");

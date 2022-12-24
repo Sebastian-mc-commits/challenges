@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "createFile.js",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -18,12 +18,12 @@
     "url": "https://github.com/Sebastian-mc-commits/challenges/issues"
   },
   "homepage": "https://github.com/Sebastian-mc-commits/challenges#readme",
-  "devDependencies": {
-    "nodemon": "^2.0.20",
-    "prompt-sync": "^4.2.0"
-  },
   "dependencies": {
     "express": "^4.18.2",
-    "express-handlebars": "^6.0.6"
+    "express-handlebars": "^6.0.6",
+    "socket.io": "^4.5.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
   }
 }
