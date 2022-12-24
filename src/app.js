@@ -1,8 +1,8 @@
 import express from "express";
 import { Server } from "socket.io";
 import { create } from "express-handlebars";
-import { comments } from "./classes/index.js";
-import { cart, products, listContent } from "./routers/index.js";
+import { comments, product } from "./classes/index.js";
+import { cart, home, listContent, realTimeProducts } from "./routers/index.js";
 import __dirname from "./__dirname.js";
 import helpers from "./lib/handlebars.js";
 
@@ -22,9 +22,11 @@ app.engine("hbs", hbs.engine);
 app.set("views", __dirname("views"));
 app.set("view engine", "hbs");
 //Routers
-app.use("/products", products);
+app.use("/home", home);
 app.use("/cart", cart);
 app.use("/listContent", listContent);
+app.use("/realTimeProducts", realTimeProducts);
+
 const server = app.listen(PORT, () => console.log("Server set on port 4000"));
 
 const io = new Server(server);
@@ -40,4 +42,6 @@ io.on("connection", (socket) => {
         comments.addComment(data);
         io.to(data.room).emit("message", {data: comments.getComments(data.room)});
     });
+
+    socket.emit("getProducts", product.getProducts());
 });

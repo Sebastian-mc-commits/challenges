@@ -1,0 +1,27 @@
+<div class="container">
+  <h2>Add a product</h2>
+  <form action="/home/addProduct" method="POST" class="form" id="form">
+    <input
+      type="text"
+      placeholder="Image route (optional)"
+      id="field"
+      name="thumbnail"
+    />
+    <input type="text" placeholder="Title" id="field" name="title" />
+    <input type="number" placeholder="price" id="field" name="price" />
+    <input type="text" placeholder="Code" id="field" name="code" />
+    <input type="checkbox" name="stock" value="false" />
+    <input type="number" placeholder="Stock" id="field" name="stock" />
+    <div class="commentContent">
+      <textarea
+        name="description"
+        rows="10"
+        placeholder="Description"
+        id="field"
+      ></textarea>
+    </div>
+    <input type="submit" value="Done" id="activeButton" disabled />
+  </form>
+</div>
+
+<script src="/public/js/addProduct.js"></script>
