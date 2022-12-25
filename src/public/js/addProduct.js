@@ -1,10 +1,3 @@
-const field = document.querySelectorAll("#field");
-const activeButton = document.querySelector("#activeButton");
+const socket = io();
 
-document.querySelector("#form").addEventListener("input", () => {
-    const condition = [...field].every(item => item.value);
-
-    if (condition) return activeButton.removeAttribute("disabled");
-
-    return activeButton.hasAttribute("disabled") || activeButton.setAttribute("disabled", "");
-});
+document.addEventListener("submit", () => socket.emit("sendProduct"));

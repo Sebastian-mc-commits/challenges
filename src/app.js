@@ -44,4 +44,8 @@ io.on("connection", (socket) => {
     });
 
     socket.emit("getProducts", product.getProducts());
+
+    socket.on("sendProduct", () => {
+        io.emit("getProducts", product.getProducts());
+    });
 });

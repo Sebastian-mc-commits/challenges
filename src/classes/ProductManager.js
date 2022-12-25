@@ -64,13 +64,13 @@ class ProductManager {
         return this.#uploadProduct(), "All the products has been deleted successfully";
     }
 }
-
+//const product = new ProductManager("products.json");
 export default new ProductManager("products.json");
-/*for (let i = 0; i < 60; i++) {
+/*for (let i = 0; i < 10; i++) {
     const random = Math.random().toString(36).substring(0, 5);
     const ejm = {
         title: random, description: "Ejemplo",
-        price: i * 1000, thumbnail: "./", code: random, stock: i
+        price: i * 1000, thumbnail: "/public/images/example.js", code: random, stock: i
     }
     console.log(product.addProduct(ejm));
 }*/

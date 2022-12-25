@@ -5,6 +5,8 @@
     {{#with products}}
       {{#if thumbnail}}
         <img src={{thumbnail}} alt="Product Image" />
+        {{else}}
+        <img src="/public/images/example.js" alt="Product Image" />
       {{/if}}
 
       <h1>{{title}}</h1>
@@ -24,6 +26,8 @@
     {{#each products}}
       {{#if thumbnail}}
         <img src={{thumbnail}} alt="Product Image" />
+        {{else}}
+        <img src="/public/images/example.js" alt="Product Image" />
       {{/if}}
 
       <h1>{{title}}</h1>
