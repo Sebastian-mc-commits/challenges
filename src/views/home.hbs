@@ -1,55 +1,57 @@
-<div class="container grid">
-  <a href="/realTimeProducts" class="text">Go to Real time products</a>
-  <a href="/home/addProduct" class="text">Create Product</a>
-  <h1>Products</h1>
-  {{#if getProductById}}
-    {{#with products}}
-      {{#if thumbnail}}
-        <img src={{thumbnail}} alt="Product Image" />
-        {{else}}
-        <img src="/public/images/example.js" alt="Product Image" />
-      {{/if}}
-
-      <h1>{{title}}</h1>
-      <p>Price: {{price}}</p>
-      <p>Code: {{code}}</p>
-      <p>Status: {{status}}</p>
-      <p>Stock: {{stock}}</p>
-      <p>{{description}}</p>
-      <button>
-        <a href="/cart/addToCart/{{id}}" class="text">Add to cart</a>
-      </button>
-      <button><a href="/listContent/{{id}}" class="text">Watch more</a></button>
-      <!--<a href="/cart/addToCart?title={{title}}&{{price}}&code={{code}}&status={{status}}&description={{description}}&tumbnail={{tumbnail}}">
-            Add to cart
-        </a>-->
-    {{/with}}
-  {{else}}
-    {{#each products}}
-      <div id="content">
-        {{#if thumbnail}}
-        <img src={{thumbnail}} alt="Product Image" />
-        {{else}}
-        <img src="/public/images/example.js" alt="Product Image" />
-      {{/if}}
+{{!-- <a href="/realTimeProducts" class="text">Go to Real time products</a>
+<br>
+<a href="/home/crud-admin" class="text">Create Product</a> --}}
+<h1>Products</h1>
+{{!-- <button onclick="nextProduct()">Scroll</button> --}}
+<div class="container m-auto grid">
+  
+    {{#if getProductById}}
+    <div class="card"></div>
+      {{#with products}}
+          <img
+            src={{thumbnail}}
+            alt="Product Image"
+          />
         <h1>{{title}}</h1>
         <p>Price: {{price}}</p>
         <p>Code: {{code}}</p>
         <p>Status: {{status}}</p>
         <p>Stock: {{stock}}</p>
-        <p>{{description}}</p>
-        <p id="id">{{id}}</p>
-        <!--<a href="/cart/addToCart?title={{title}}&{{price}}&code={{code}}&sttus={{status}}&description={{description}}&tumbnail={{tumbnail}}">
-            Add to cart
-        </a>-->
         <button>
           <a href="/cart/addToCart/{{id}}" class="text">Add to cart</a>
         </button>
-
         <button><a href="/listContent/{{id}}" class="text">Watch more</a></button>
-      </div>
-    {{/each}}
-  {{/if}}
+        <!--<a href="/cart/addToCart?title={{title}}&{{price}}&code={{code}}&status={{status}}&description={{description}}&tumbnail={{tumbnail}}">
+            Add to cart
+        </a>-->
+        </div>
+      {{/with}}
+    {{else}}
+      {{#each products}}
+        <div class="card w-3">
+            <img
+              src={{thumbnail}}
+              alt="Product Image"
+              class="w-10"
+            />
+          <h1>{{title}}</h1>
+          <p>Price: {{price}}</p>
+          <p>Code: {{code}}</p>
+          <p>Status: {{status}}</p>
+          <p>Stock: {{stock}}</p>
+          <p id="id">{{id}}</p>
+          <!--<a href="/cart/addToCart?title={{title}}&{{price}}&code={{code}}&sttus={{status}}&description={{description}}&tumbnail={{tumbnail}}">
+            Add to cart
+        </a>-->
+          <button>
+            <a href="/cart/addToCart/{{id}}" class="text">Add to cart</a>
+          </button>
+
+          <button><a href="/listContent/{{id}}" class="text">Watch more</a></button>
+        </div>
+      {{/each}}
+    {{/if}}
+  </div>
 </div>
 
 <script src="/public/js/home.js"></script>

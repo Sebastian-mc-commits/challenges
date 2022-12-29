@@ -1,49 +1,59 @@
-<div class="container">
-  <h1>Cart</h1>
-  <button><a href="/cart/deleteAll" class="text">Delete all</a></button>
-  {{#if getProductById}}
-    {{#with products}}
-      {{#if thumbnail}}
-        <img src={{thumbnail}} alt="Product Image" />
-        {{else}}
-        <img src="/public/images/example.js" alt="Product Image" />
-      {{/if}}
-
-      <h1>{{title}}</h1>
-      <p>Price: {{price}}</p>
-      <p>Code: {{code}}</p>
-      <p>Status: {{status}}</p>
-      <p>{{description}}</p>
-      <p>Quantity: {{quantity}}</p>
-      <button><a href="/cart/delete/{{id}}" class="text">Delete</a></button>
-      <button>Buy</button>
-      <button><a href="/listContent/{{id}}" class="text">Watch more</a></button>
-      <!--<a href="/cart/addToCart?title={{title}}&{{price}}&code={{code}}&status={{status}}&description={{description}}&tumbnail={{tumbnail}}">
+<h1>Cart</h1>
+<button><a href="/cart/deleteAll" class="text">Delete all</a></button>
+<div class="container m-auto grid">
+    {{#if getProductById}}
+    <div class="card"></div>
+      {{#with products}}
+          <img
+            src={{thumbnail}}
+            alt="Product Image"
+          />
+        <h1>{{title}}</h1>
+        <p>Price: {{price}}</p>
+        <p>Code: {{code}}</p>
+        <p>Status: {{status}}</p>
+        <p>Quantity: {{quantity}}</p>
+        <p>Stock: <span>{{stock}}</span></p>
+        <input type="number" class="card w-2 border-radius" value="{{quantity}}">
+        <button><a href="/cart/delete/{{id}}" class="text">Delete</a></button>
+        <button><a href="/listContent/{{id}}" class="text">Watch more</a></button>
+        <!--<a href="/cart/addToCart?title={{title}}&{{price}}&code={{code}}&status={{status}}&description={{description}}&tumbnail={{tumbnail}}">
             Add to cart
         </a>-->
-    {{/with}}
-  {{else}}
-    {{#each products}}
-      {{#if thumbnail}}
-        <img src={{thumbnail}} alt="Product Image" />
-        {{else}}
-        <img src="/public/images/example.js" alt="Product Image" />
-      {{/if}}
-
-      <h1>{{title}}</h1>
-      <p>Price: {{price}}</p>
-      <p>Code: {{code}}</p>
-      <p>Status: {{status}}</p>
-      <p>{{description}}</p>
-      <p>Quantity: {{quantity}}</p>
-      <button><a href="/cart/delete/{{id}}" class="text">Delete</a></button>
-      <button>Buy</button>
-      <button><a href="/listContent/{{id}}" class="text">Watch more</a></button>
-      <!--<a href="/cart/addToCart?title={{title}}&{{price}}&code={{code}}&status={{status}}&description={{description}}&tumbnail={{tumbnail}}">
+        </div>
+      {{/with}}
+    {{else}}
+      {{#each products}}
+        <div class="card w-3">
+          {{#if thumbnail}}
+            <img
+              src={{thumbnail}}
+              alt="Product Image"
+              class="w-10"
+            />
+          {{else}}
+            <img
+              src="/public/images/example.jpg"
+              alt="Product Image"
+            />
+          {{/if}}
+          <h1>{{title}}</h1>
+          <p>Price: {{price}}</p>
+          <p>Code: {{code}}</p>
+          <p>Status: {{status}}</p>
+          <p>Quantity: {{quantity}}</p>
+          <p>Stock: <span id="stock">{{stock}}</span></p>
+        <input type="number" class="card w-2 border-radius" id="quantity" value="{{quantity}}">
+          <!--<a href="/cart/addToCart?title={{title}}&{{price}}&code={{code}}&sttus={{status}}&description={{description}}&tumbnail={{tumbnail}}">
             Add to cart
         </a>-->
-    {{/each}}
-  {{/if}}
+          <button><a href="/cart/delete/{{id}}" class="text">Delete</a></button>
+
+          <button><a href="/listContent/{{id}}" class="text">Watch more</a></button>
+        </div>
+      {{/each}}
+    {{/if}}
+  </div>
 </div>
 
-<script src="/public/js/product.js"></script>
+<script src="/public/js/cart.js"></script>

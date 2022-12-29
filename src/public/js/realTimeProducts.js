@@ -1,6 +1,17 @@
 const products = document.querySelector("#products");
 const socket = io();
 
+socket.on("requestMessage", text => {
+    const { type, message } = text.message;
+    console.log(`type: ${type} message: ${message}`)
+    Swal.fire({
+        text: message,
+        toast: true,
+        position: "top-righ",
+        color: type
+    });
+});
+
 socket.on("getProducts", async data => {
     try {
         await renderProducts(data);
@@ -12,23 +23,24 @@ socket.on("getProducts", async data => {
 function renderProducts(data) {
     products.innerHTML = "";
     console.log(data);
-    for (let i of data) {
-        const image = i.thumbnail || "/public/images/example.jpg";
+    for (let { thumbnail, title, price, code, status, stock, id } of data) {
         products.innerHTML += `
-            <div>
-                <img src=${image} alt="Product Image"/>
-                <h2>${i.title}</h2>
-                <p>Price: ${i.price}</p>
-                <p>Code: ${i.code}</p>
-                <p>Status: ${i.status}</p>
-                <p>Stock: ${i.stock}</p>
-                <p>${i.description}</p>
-                <p id="id">${i.id}</p>
+            <div class="card w-3">
+                <img
+                src=${thumbnail}
+                alt="Product Image"
+                class="w-10"
+                />
+                <h1>${title}</h1>
+                <p>Price: ${price}</p>
+                <p>Code: ${code}</p>
+                <p>Status: ${status}</p>
+                <p>Stock: ${stock}</p>
                 <button>
-                <a href="/cart/addToCart/${i.id} class="text">Add to cart</a>
+                    <a href="/cart/addToCart/${id}" class="text">Add to cart</a>
                 </button>
 
-                <button><a href="/listContent/${i.id}" class="text">Watch more</a></button>
+                <button><a href="/listContent/${id}" class="text">Watch more</a></button>
             </div>`
     }
 }

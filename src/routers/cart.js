@@ -10,9 +10,9 @@ router.get("/", (req, res) => {
 router.get("/addToCart/:id", (req, res) => {
     //cart.addProduct(product)
     const {id} = req.params;
-    const getProduct = product.getProductById( parseInt(id) );
+    const getProduct = product.getProductById( id );
     cart.addProduct(getProduct);
-    res.redirect("/products");
+    res.redirect("/home");
 });
 router.get("/delete/:pid", (req, res) => {
     const {pid} = req.params;

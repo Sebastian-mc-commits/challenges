@@ -4,15 +4,13 @@ class Cart {
     #product;
     #path;
     constructor(pt) {
-        this.#path = __dirname("classes", "data", pt);;
+        this.#path = __dirname("data", pt);
         this.#product = fs.existsSync(this.#path) ?
             JSON.parse(fs.readFileSync(this.#path)) : [];
     }
 
     addProduct(products) {
 
-        products.quantity = 1;
-        delete products.stock;
         const existProduct = this.#existProduct(products.id);
 
         if (existProduct) {
@@ -25,6 +23,7 @@ class Cart {
             }
             return this.#uploadProduct(), "Quantity increased";
         }
+        products.quantity = 1;
         this.#product.push({
             ...products,
         });
@@ -45,12 +44,12 @@ class Cart {
 
     };
 
-    #existProduct = (id) => Boolean(this.#product.find(p => p.id === parseInt(id)));
+    #existProduct = (id) => Boolean(this.#product.find(p => p.id === id));
 
     deleteProduct(id) {
         if (!this.#existProduct(id)) return false;
 
-        this.#product = this.#product.filter(p => p.id !== parseInt(id));
+        this.#product = this.#product.filter(p => p.id !== id);
         return this.#uploadProduct(), `${id} Deleted successfully`;
     };
 

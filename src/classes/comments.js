@@ -6,7 +6,7 @@ class Comments{
     #comments;
 
     constructor(file){
-        this.path = __dirname("classes", "data", file);
+        this.path = __dirname("data", file);
         this.#comments = fs.existsSync(this.path) ? JSON.parse(fs.readFileSync(this.path)) : [];
     }
 

@@ -6,13 +6,15 @@
     <title>{{currentView}} ProductManager</title>
     <link rel="stylesheet" href="/public/styles/index.css" />
   </head>
-  <div>
-    <button id="btnCart">
-      <a href="/cart" class="text">
-        Go to Cart
-        <sup>Items: <strong>{{length}}</strong></sup>
-      </a>
-    </button>
+  <div class="main-menu" id="main-menu">
+    <a href="/cart" id="btnCart" class="text">
+      Go to Cart
+      <sup>Items: <strong>{{length}}</strong></sup>
+    </a>
+
+    <a href="/realTimeProducts" class="text">Go to Real time products</a>
+
+    <a href="/home/crud-admin" class="text">Create Product</a>
   </div>
   <body>
     <p hidden id="currentView">{{currentView}}</p>

@@ -1,11 +1,9 @@
-<link rel="stylesheet" href="/public/styles/listContent.css">
+<link rel="stylesheet" href="/public/styles/listContent.css" />
 
-<div class="container">
+<div class="container m-auto">
   {{#with getProduct}}
     <div class="content">
-      {{#if thumbnail}}
-        <img src="/public/images/example.jpg" alt="Product image" />
-      {{/if}}
+      <img src={{thumbnail}} alt="Product image" />
       <div class="productAttributes">
         <h1>{{title}}</h1>
         <p>Price: {{price}}</p>
@@ -16,11 +14,12 @@
     </div>
     <button class="button">Buy {{title}}</button>
     <div class="description">
-    <p><strong>Description: </strong><br>{{description}}</p>
+      <p><strong>Description: </strong><br />{{description}}</p>
     </div>
   {{/with}}
 
-  <h1>Welcome</h1>
+  <div class="border"></div>
+  <h1>Welcome <span id="user"></span></h1>
 
   <form id="formChat">
     <div class="rate">
@@ -44,23 +43,26 @@
 
     <div class="commentContent">
       <textarea
-        id="message"
+        id="comment"
         rows="10"
         placeholder="Your opinion make us growth"
-        required
+        onfocus="registerUser()"
+        ;
       ></textarea>
-      <input type="submit" value="All set" />
+      <input type="submit" value="All set"/>
     </div>
 
   </form>
 
   <h3>Comments <strong id="commentsLength"></strong></h3>
+  <h1>{{getProduct.id}}</h1>
   <ul id="chat"></ul>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-  const room =
-  {{getProduct.id}}
+  const room = "{{getProduct.id}}"
+  console.log(`room ${room}`)
 </script>
 <script src="/public/js/chat.js"></script>

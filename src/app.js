@@ -9,7 +9,8 @@ import helpers from "./lib/handlebars.js";
 const app = express();
 const PORT = 4000;
 
-app.use(express.urlencoded({extended: true}));
+
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use("/public", express.static(__dirname("public")));
 
@@ -33,19 +34,28 @@ const io = new Server(server);
 
 io.on("connection", (socket) => {
 
-    socket.on("selectedRoom", room => {
-        socket.emit("data", {data: comments.getComments(room)});
+    socket.on("selectedRoom", async room => {
+        // socket.rooms.delete;
+        socket.join(room);
+        const getData = await comments.getComments(room);
+        socket.emit("data", { data: getData });
     });
 
-    socket.on("join", data => {
-        socket.join(data.room);
+    socket.on("message", async data => {
         comments.addComment(data);
-        io.to(data.room).emit("message", {data: comments.getComments(data.room)});
+        socket.join(data.room);
+        const getData = await comments.getComments(data.room);
+        io.to(data.room).emit("data", { data: getData });
     });
 
     socket.emit("getProducts", product.getProducts());
 
-    socket.on("sendProduct", () => {
+    socket.on("sendProduct", message => {
+        io.emit("requestMessage", { message });
         io.emit("getProducts", product.getProducts());
     });
+
+    socket.on("connect_error", (err) => {
+        console.log(`connect_error due to ${err.message}`);
+      });
 });
