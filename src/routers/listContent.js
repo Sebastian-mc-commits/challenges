@@ -1,12 +1,18 @@
 import { Router } from "express";
-import { product } from "../classes/index.js"
+import * as comments from "../services/comment.service.js";
 
 const router = Router();
 
-router.get("/:id", (req, res) => {
-    const {id} = req.params;
-    const getProduct = product.getProductById(id);
-    res.render("listContent", {getProduct});
+router.get("/:id", async (req, res) => {
+    try {
+        const {id} = req.params;
+        // const comments = await getComments(id);
+        const getComments = await comments.getComments(id);
+        res.render("listContent", { getProduct: getComments });
+    }
+    catch (err) {
+        req.flash("message", { message: "Product Not Found", type: "warning", error: err.message });
+        return res.status(404).render("errorHandler");
+    }
 })
-
 export default router;

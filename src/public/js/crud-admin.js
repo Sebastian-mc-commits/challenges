@@ -1,4 +1,3 @@
-const code = document.querySelector(".code");
 const messageCode = document.querySelector("#messageCode");
 const product = document.querySelector("#product");
 const title_form = document.querySelector(".title_form");
@@ -6,6 +5,7 @@ const btn = document.querySelector("#btn");
 const content = document.querySelector(".content");
 const list_items = document.querySelector(".list-items");
 const update = document.querySelector("#update");
+const form = document.querySelector("#form");
 
 btn.addEventListener("input", () => content.classList.toggle("translate"));
 
@@ -63,6 +63,10 @@ list_items.addEventListener("click", e => {
         case "go_to_home":
             location.href = "/home";
             break;
+        case "go_to_user":
+            y = document.querySelector("#userOptions").getBoundingClientRect.y;
+            target.style.color = "burlywood";
+            break;
     }
 
     // console.log("y: ", update.scrollTop());
@@ -78,19 +82,20 @@ list_items.addEventListener("click", e => {
 let data = [];
 let isCodeunique = true;
 
-socket.on("getProducts", async products => {
+socket.on("getProducts", async ({products}) => {
+    console.log(products);
     try {
         data = await products;
-        product.innerHTML = "";
-        for (const { title, id, code } of data) {
-            const requestId = JSON.stringify({ id, title });
+        product.innerHTML = ``;
+        for (const { title, _id, code } of data) {
+            const requestId = JSON.stringify({ _id, title });
             product.innerHTML += `
             <tr class='text-center'>
-            <td>${id}</td>
+            <td>${_id}</td>
             <td>${title}</td>
             <td>${code}</td>
             <td class='text-end'><button onclick='deleteProduct(${requestId})'>Delete</button></td>
-            <td class='text-end'><button onclick='updateProduct("${id}")'>update</button></td>
+            <td class='text-end'><button onclick='updateProduct("${_id}")'>update</button></td>
             </tr>`
         }
     } catch {
@@ -102,16 +107,16 @@ socket.on("getProducts", async products => {
 });
 
 const deleteProduct = (data) => {
-    const { id, title } = data
+    const { _id, title } = data
     const message = { type: "#B30000", message: `${title} Has been deleted` }
     socket.emit("sendProduct", message);
     localStorage.setItem("message", JSON.stringify(message));
-    location.href = `/home/delete/${id}`;
+    location.href = `/home/delete/${_id}`;
 };
 
 
 const updateProduct = (id_p) => {
-    const { title, id, description, price, stock } = data.find(item => item.id === id_p);
+    const { title, _id, description, price, stock } = data.find(item => item._id === id_p);
     const sendProduct = (bool = true) => {
         const title_for_update = document.querySelector("#title_for_update");
         const message = {
@@ -126,7 +131,7 @@ const updateProduct = (id_p) => {
 
     if (update_form) update_form.removeEventListener("submit", sendProduct(false));
 
-    update.innerHTML = `<form class="form card" id="update_form" action="/home/updateProduct/${id}" method="POST">
+    update.innerHTML = `<form class="form card" id="update_form" action="/home/updateProduct/${_id}" method="POST">
     <div class="group">
       <input type="text" id="title_for_update" placeholder="Title" value=${title} name="title" />
       <input type="number" placeholder="price" name="price" value='${price}'/>
@@ -157,21 +162,11 @@ const updateProduct = (id_p) => {
     document.querySelector("#update_form").addEventListener("submit", () => sendProduct());
 }
 
-document.querySelector("form").addEventListener("submit", () => {
+
+form.addEventListener("submit", () => {
 
     const message = { type: "#84DE02", message: `${title_form.value} Added` }
     localStorage.setItem("message", JSON.stringify(message));
     socket.emit("sendProduct", message)
 }
 );
-
-code.addEventListener("input", (e) => {
-    const isCodeRepeat = data.some(item => item.code === e.target.value);
-    if (isCodeRepeat) {
-        messageCode.textContent = `The code ${e.target.value} Already exist`
-        isCodeunique = false;
-    } else if (messageCode.textContent) {
-        messageCode.textContent = "";
-        isCodeunique = true;
-    }
-});

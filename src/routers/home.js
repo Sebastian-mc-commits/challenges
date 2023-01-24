@@ -1,9 +1,10 @@
-import { product } from "../classes/index.js";
 import { Router } from "express";
-import {extname} from "path";
-import {v4} from "uuid";
+import { extname } from "path";
+import { v4 } from "uuid";
+import * as product from "../services/product.service.js";
 import __dirname from "../__dirname.js";
 import multer from "multer";
+import { authenticateAdmin } from "../lib/middleware/authentication.js";
 
 const router = Router();
 
@@ -12,60 +13,124 @@ const storage = multer.diskStorage({
     filename: (req, file, cb) => cb(null, v4() + extname(file.originalname))
 });
 
-const upload = multer({ 
+const upload = multer({
     storage,
     fileFilter: (req, file, cb) => {
         const fileType = /jpg|jpeg|png|gift/;
         const mimetype = fileType.test(extname(file.originalname));
 
-        if(mimetype) return cb(null, true);
+        if (mimetype) return cb(null, true);
 
         return cb("Error");
     }
 });
 
 
-router.get("/", (req, res) => {
-    const { limit } = req.query;
-    res.render("home", { products: product.getProducts(limit) });
+router.get("/", async (req, res) => {
+    try {
+        // const {limit} = req.query;
+        // const products = await product.getProducts(limit);
+        const products = await product.getProducts();
+        res.render("home", {
+            products
+        });
+    }
+    catch (err) {
+        req.flash("message", { message: "Has been a problem with the products render", type: "warning", error: err.message });
+        return res.status(500).render("errorHandler");
+    }
 });
 
-router.get("/crud-admin", (req, res) => {
-    res.render("crud-admin", { product: product.getProducts() });
+router.get("/crud-admin", async (req, res) => {
+    try {
+        // res.render("crud-admin", { products: await product.getProducts() });
+        res.render("crud-admin");
+    }
+    catch (err) {
+        req.flash("message", { message: "Has been a problem with the Admin page render", type: "warning", error: err.message });
+        return res.status(500).render("errorHandler");
+    }
 });
 
-router.get("/:pid", (req, res) => {
+router.get("/:pid", async (req, res) => {
     const { pid } = req.params;
-    const productId = product.getProductById(pid);
-    console.log(productId);
-    if (!productId) return res.status(404).send(`Product with id ${pid} Not Found`);
-    res.render("home", { products: productId, getProductById: true });
+
+    try {
+        const productId = await product.getProduct(pid);
+
+        res.render("home", { products: productId, getProductById: true });
+    }
+    catch (err) {
+        req.flash("message", { message: "Product Not Found", type: "warning", error: err.message });
+        return res.status(404).render("errorHandler");
+    }
 });
 
-router.get("/delete/:pid", (req, res) => {
-    const { pid } = req.params;
-    const productId = product.deleteProduct(pid);
-    if (!productId) return res.status(404).send(`Product with id ${pid} Not Exist`);
-    res.redirect("/home/crud-admin");
+router.get("/delete/:pid", authenticateAdmin, async (req, res) => {
+    try {
+        const { pid } = req.params;
+        await product.deleteProduct(pid);
+        res.redirect("/home/crud-admin");
+    }
+    catch {
+        req.flash("message", { message: "Product Not Found", type: "warning", error: err.message });
+        return res.status(404).render("errorHandler");
+    }
 });
 
-router.post("/addProduct", upload.single("thumbnail"), (req, res) => {
-    console.log(req.file);
-    const file = req.file?.filename;
-    if (file) req.body.thumbnail = `/public/uploads/images/${file}`;
-    const addProduct = product.addProduct(req.body);
-    if (!addProduct) return res.status(400).redirect("/home/crud-admin");
+router.post("/addProduct", upload.single("thumbnail"), async (req, res) => {
+    try {
+        const file = req.file?.filename;
+        if (file) req.body.thumbnail = `/public/uploads/images/${file}`;
+        const createdBy = "63cdd07de2db59a79ded8f17";
+        const data = {
+            title: req.body.title,
+            price: parseInt(req.body.price),
+            code: req.body.code,
+            status: JSON.parse(req.body.status),
+            stock: parseInt(req.body.stock),
+            description: req.body.description,
+        };
+        console.log(data);
+        await product.createProduct(createdBy, data);
+        res.redirect("/home/crud-admin");
+    }
+    catch(err) {
+        req.flash("message", { message: "Server error", type: "warning", error: err.message });
+        return res.status(500).render("errorHandler");
+    }
 
-    res.redirect("/home/crud-admin");
 });
 
-router.post("/updateProduct/:pid", (req, res) => {
-    const { pid } = req.params;
-    const updateProduct = product.updateProduct(pid, req.body);
-    if (!updateProduct) return res.status(400).send(`Cannot update the product because
-        has the same code than other or the field not exist. Check it out!`);
-
-    res.redirect("/home/crud-admin");
+router.get("/updateProduct/:pid", authenticateAdmin, async (req, res) => {
+    try {
+        await product.updateProduct(pid, req.body);
+        res.redirect("/home/crud-admin");
+    }
+    catch {
+        return res.status(500).render("errorHandler");
+    }
 });
 
+router.get("/crud-admin/deleteUser/:id", authenticateAdmin, async (req, res) => {
+    try {
+        await user.deleteUser(req.params.id);
+        res.redirect("/home/crud-admin");
+    }
+    catch (err) {
+        req.flash("message", { message: "Something went wrong try later", type: "warning", error: err.message });
+        return res.status(400).redirect("/home/crud-admin");
+    }
+});
+
+router.get("/crud-admin/setUserToAdmin/:id", authenticateAdmin, async (req, res) => {
+    try {
+        await user.userToAdmin(req.params.id);
+        res.redirect("/home/crud-admin");
+    }
+    catch (err) {
+        req.flash("message", { message: "Something went wrong try later", type: "warning", error: err.message });
+        return res.status(400).redirect("/home/crud-admin");
+    }
+});
 export default router;

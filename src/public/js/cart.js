@@ -1,9 +1,11 @@
-const quantity = document.querySelector("#quantity");
+const wrapQuantity = document.querySelector("#wrapQuantity");
 const stock = document.querySelector("#stock");
 
-quantity.addEventListener("input", () => {
-    const quantity_value = parseInt(quantity.value);
-    const stock_value = parseInt(stock.textContent);
-    if (quantity_value > stock_value) quantity.value = stock.textContent;
-    else if (quantity_value <= 0) quantity.value = 1;
-});
+wrapQuantity.addEventListener("input", (e) => {
+    const target = e.target;
+
+    if (parseInt(target.value) > parseInt(target.dataset.quantity)) {
+        return target.value = target.dataset.quantity
+    }
+    else if (target.value < 0) return target.value = 1;
+})

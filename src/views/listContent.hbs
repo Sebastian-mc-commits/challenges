@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="/public/styles/listContent.css" />
 
 <div class="container m-auto">
-  {{#with getProduct}}
+  {{#with getProduct.product}}
     <div class="content">
       <img src={{thumbnail}} alt="Product image" />
       <div class="productAttributes">
@@ -19,7 +19,9 @@
   {{/with}}
 
   <div class="border"></div>
-  <h1>Welcome <span id="user"></span></h1>
+  {{#if user}}
+  <h1>Welcome{{user.name}} <sup>{{user.email}}</sup></h1>
+  {{/if}}
 
   <form id="formChat">
     <div class="rate">
@@ -42,12 +44,11 @@
     </div>
 
     <div class="commentContent">
+      <input type="text" id="header" placeholder="Header">
       <textarea
         id="comment"
         rows="10"
-        placeholder="Your opinion make us growth"
-        onfocus="registerUser()"
-        ;
+        placeholder="Your opinion make us grow"
       ></textarea>
       <input type="submit" value="All set"/>
     </div>
@@ -55,14 +56,11 @@
   </form>
 
   <h3>Comments <strong id="commentsLength"></strong></h3>
-  <h1>{{getProduct.id}}</h1>
   <ul id="chat"></ul>
 </div>
 
+<p hidden id="productRef">{{getProduct.product._id}}</p>
+
 <script src="/socket.io/socket.io.js"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-  const room = "{{getProduct.id}}"
-  console.log(`room ${room}`)
-</script>
 <script src="/public/js/chat.js"></script>

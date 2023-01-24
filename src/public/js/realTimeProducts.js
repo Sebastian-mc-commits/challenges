@@ -16,14 +16,14 @@ socket.on("getProducts", async data => {
     try {
         await renderProducts(data);
     } catch {
-        products.innerHTML = `<div class='center text-danger'><h1>Something is wrong</h1></div>`
+        products.innerHTML = `<div class='center text-warning'><h1>Something is wrong</h1></div>`
     }
 });
 
 function renderProducts(data) {
     products.innerHTML = "";
     console.log(data);
-    for (let { thumbnail, title, price, code, status, stock, id } of data) {
+    for (let { thumbnail, title, price, code, status, stock, _id } of data) {
         products.innerHTML += `
             <div class="card w-3">
                 <img
@@ -37,10 +37,10 @@ function renderProducts(data) {
                 <p>Status: ${status}</p>
                 <p>Stock: ${stock}</p>
                 <button>
-                    <a href="/cart/addToCart/${id}" class="text">Add to cart</a>
+                    <a href="/cart/addToCart/${_id}" class="text">Add to cart</a>
                 </button>
 
-                <button><a href="/listContent/${id}" class="text">Watch more</a></button>
+                <button><a href="/listContent/${_id}" class="text">Watch more</a></button>
             </div>`
     }
 }

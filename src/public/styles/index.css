@@ -6,6 +6,7 @@ body {
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 .container {
@@ -48,6 +49,10 @@ html {
   width: 100%;
 }
 
+.w-2 {
+  width: 20%;
+}
+
 .card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   transition: 0.3s;
@@ -62,7 +67,7 @@ html {
   /* Add rounded corners to the top left and the top right corner of the image */
   img {
     border-radius: 5px 5px 0 0;
-    width: 100%;
+    object-fit: cover;
   }
 
 .border-radius {
@@ -84,11 +89,11 @@ html {
     justify-content: space-around;
     align-items: center;
 }
-.danger {
+.warning {
   color: darkred;
 }
 
-.background-danger {
+.background-warning {
   background-color: darkred;
   opacity: 0.7;
 }
@@ -99,7 +104,7 @@ html {
 
 .background-success {
   background-color: forestgreen;
-  opacity: 0.7;
+  /* opacity: 0.7; */
 }
 
 .commentContent textarea {
@@ -172,34 +177,6 @@ table {
   text-align: end;
 }
 
-.main-menu {
-  position: relative;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  top: 0;
-  left: 0;
-  width: 100%;
-  right: 0;
-  margin-bottom: 2%;
-  padding: 7px;
-  background-color: #333232;
-}
-
-.main-menu a {
-  color: #f2f2f2;
-  line-height: 60px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  border-bottom: 1px solid #333;
-  transition: all 0.3s ease;
-}
-
-.main-menu a:hover{
-  border-top: 1px solid transparent;
-  border-bottom: 1px solid transparent;
-  box-shadow: 0 0px 10px 3px #222;
-}
-
 .display-none {
   display: none;
 }
@@ -222,4 +199,19 @@ input[type="submit"]:hover, button:hover, input[type="file"]:hover {
   to {
     transform: rotate(0);
   }
+}
+
+.btn-transition {
+  transition: all .6s ease;
+  margin: auto;
+}
+
+.btn-transition:enabled {
+  width: 85%;
+  background-color: rgba(3, 29, 102, 0.1);
+  border-color: rgb(3, 29, 102);
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }

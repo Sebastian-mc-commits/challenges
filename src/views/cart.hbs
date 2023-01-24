@@ -1,58 +1,27 @@
 <h1>Cart</h1>
 <button><a href="/cart/deleteAll" class="text">Delete all</a></button>
-<div class="container m-auto grid">
-    {{#if getProductById}}
-    <div class="card"></div>
-      {{#with products}}
-          <img
-            src={{thumbnail}}
-            alt="Product Image"
-          />
-        <h1>{{title}}</h1>
-        <p>Price: {{price}}</p>
-        <p>Code: {{code}}</p>
-        <p>Status: {{status}}</p>
-        <p>Quantity: {{quantity}}</p>
-        <p>Stock: <span>{{stock}}</span></p>
-        <input type="number" class="card w-2 border-radius" value="{{quantity}}">
-        <button><a href="/cart/delete/{{id}}" class="text">Delete</a></button>
-        <button><a href="/listContent/{{id}}" class="text">Watch more</a></button>
-        <!--<a href="/cart/addToCart?title={{title}}&{{price}}&code={{code}}&status={{status}}&description={{description}}&tumbnail={{tumbnail}}">
-            Add to cart
-        </a>-->
-        </div>
-      {{/with}}
-    {{else}}
+<div class="container m-auto grid" id="wrapQuantity">
       {{#each products}}
         <div class="card w-3">
-          {{#if thumbnail}}
             <img
-              src={{thumbnail}}
+              src={{this.thumbnail}}
               alt="Product Image"
               class="w-10"
             />
-          {{else}}
-            <img
-              src="/public/images/example.jpg"
-              alt="Product Image"
-            />
-          {{/if}}
-          <h1>{{title}}</h1>
-          <p>Price: {{price}}</p>
-          <p>Code: {{code}}</p>
-          <p>Status: {{status}}</p>
-          <p>Quantity: {{quantity}}</p>
-          <p>Stock: <span id="stock">{{stock}}</span></p>
-        <input type="number" class="card w-2 border-radius" id="quantity" value="{{quantity}}">
+          <h1>{{this.title}}</h1>
+          <p>Price: {{this.price}}</p>
+          <p>Code: {{this.code}}</p>
+          <p>Status: {{this.status}}</p>
+          <p>Stock: <span id="stock">{{this.stock}}</span></p>
+        <input type="number" class="card w-2 border-radius" data-quantity="{{this.stock}}" value="1">
           <!--<a href="/cart/addToCart?title={{title}}&{{price}}&code={{code}}&sttus={{status}}&description={{description}}&tumbnail={{tumbnail}}">
             Add to cart
         </a>-->
-          <button><a href="/cart/delete/{{id}}" class="text">Delete</a></button>
+          <button><a href="/cart/delete/{{this._id}}" class="text">Delete</a></button>
 
-          <button><a href="/listContent/{{id}}" class="text">Watch more</a></button>
+          <button><a href="/listContent/{{this._id}}" class="text">Watch more</a></button>
         </div>
       {{/each}}
-    {{/if}}
   </div>
 </div>
 

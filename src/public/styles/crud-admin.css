@@ -175,14 +175,11 @@
   font-size: 40px;
   font-weight: 700;
 } */
-
-.btn-transition {
-  transition: all .6s ease;
-  margin: auto;
+.userOptionsTranslate {
+  transform: translateX(270px);
 }
-
-.btn-transition:enabled {
-  width: 85%;
-  background-color: rgba(3, 29, 102, 0.1);
-  border-color: rgb(3, 29, 102);
+.userOptions {
+  position: relative;
+  left: -270px;
+  transition: all ease-in 0.4s;
 }

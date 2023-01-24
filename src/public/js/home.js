@@ -1,13 +1,25 @@
-function content(id) {
-    return console.log(id);
-}
+const handleContent = document.querySelector("#handleContent");
 
-let prevScroll = -400;
-function nextProduct() {
-    document.querySelector(".grid").scrollTo({
-        top: prevScroll,
+const handleScroll = localStorage.getItem("handleScroll");
+
+if ( handleScroll){
+    window.scrollTo({
+        top: parseInt(handleScroll),
         left: 0,
         behavior: "smooth"
     });
-    prevScroll -= 400;
+    localStorage.removeItem("handleScroll");
 }
+
+handleContent.addEventListener("click", e => {
+    const target = e.target;
+    console.log(target);
+    if (!target.dataset.cart) return;
+    
+    const y = e.clientY;
+    // const y2 = e.pageY;
+    localStorage.setItem("handleScroll", String(y));
+
+    return location.href = `/cart/addToCart/${target.dataset.cart}`;
+
+});

@@ -6,20 +6,9 @@
     <title>{{currentView}} ProductManager</title>
     <link rel="stylesheet" href="/public/styles/index.css" />
   </head>
-  <div class="main-menu" id="main-menu">
-    <a href="/cart" id="btnCart" class="text">
-      Go to Cart
-      <sup>Items: <strong>{{length}}</strong></sup>
-    </a>
-
-    <a href="/realTimeProducts" class="text">Go to Real time products</a>
-
-    <a href="/home/crud-admin" class="text">Create Product</a>
-  </div>
+  {{> menu}}
+  {{> messages}}
   <body>
-    <p hidden id="currentView">{{currentView}}</p>
     {{{body}}}
   </body>
-
-  <script src="/public/js/main.js"></script>
 </html>
